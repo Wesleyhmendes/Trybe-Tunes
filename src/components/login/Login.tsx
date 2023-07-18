@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { createUser } from '../../services/userAPI';
 import Loading from '../loading/loading';
 
@@ -12,6 +12,7 @@ function Login() {
     image: '',
     description: '',
   });
+  const navigate = useNavigate();
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setCreateParam((prevCreateParam) => ({ ...prevCreateParam, name: value }));
@@ -25,16 +26,15 @@ function Login() {
   const handleSubmit = async () => {
     setLoading(true);
     await createUser(createParam);
-    setTimeout(() => {
-      setLoading(false);
-    }, 2500);
+    navigate('/search');
+    setLoading(false);
   };
 
   return (
     <>
       { loading && <Loading /> }
       { !loading && (
-        <form action="">
+        <form>
           <label>
             Nome
             <input
@@ -45,17 +45,15 @@ function Login() {
               onChange={ handleChange }
             />
           </label>
-          <Link to="/search">
-            <button
-              name="createBtn"
-              type="button"
-              disabled={ disableBtn }
-              data-testid="login-submit-button"
-              onClick={ handleSubmit }
-            >
-              Entrar
-            </button>
-          </Link>
+          <button
+            name="createBtn"
+            type="button"
+            disabled={ disableBtn }
+            data-testid="login-submit-button"
+            onClick={ handleSubmit }
+          >
+            Entrar
+          </button>
         </form>
       ) }
     </>
