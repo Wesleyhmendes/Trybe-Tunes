@@ -3,20 +3,29 @@ import { useParams } from 'react-router-dom';
 import Loading from '../loading/loading';
 import getMusics from '../../services/musicsAPI';
 import { AlbumType, SongType } from '../../types';
+import emptyHeartImage from '../../images/empty_heart.png';
+import checkedHeartImage from '../../images/checked_heart.png';
 
 function Album() {
   const [loading, setLoading] = useState(false);
   const [musicData, setMusicData] = useState<(AlbumType | SongType)[]>([]);
+  const [srcImage, setSrcImage] = useState(emptyHeartImage);
 
   const { id } = useParams();
-  const key = Date.now();
+
+  const handleFavorite = () => {
+    if (srcImage === emptyHeartImage) {
+      setSrcImage(checkedHeartImage);
+    } else {
+      setSrcImage(emptyHeartImage);
+    }
+  };
 
   useEffect(() => {
     const accessApi = async () => {
       setLoading(true);
       const data = await getMusics(id as string);
       setMusicData(data);
-      console.log(data);
       setLoading(false);
     };
     accessApi();
@@ -39,7 +48,7 @@ function Album() {
           </h2>
           { musicData.slice(1).map((music) => {
             return (
-              <div key={ key }>
+              <div key={ (music as SongType).trackId }>
 
                 <p>{ (music as SongType).trackName }</p>
                 <audio
@@ -51,6 +60,15 @@ function Album() {
                   O seu navegador não suporta o elemento
                   <code>audio</code>
                 </audio>
+                <label>
+                  <img src={ srcImage } alt="Empty Heart" />
+                  <input
+                    onChange={ handleFavorite }
+                    id="favoriteCheck"
+                    type="checkbox"
+                    data-testid={ `checkbox-music-${(music as SongType).trackId}` }
+                  />
+                </label>
               </div>
             );
           }) }
