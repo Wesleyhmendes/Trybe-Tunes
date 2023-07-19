@@ -9,7 +9,7 @@ function Album() {
   const [musicData, setMusicData] = useState<(AlbumType | SongType)[]>([]);
 
   const { id } = useParams();
-
+  const key = Date.now();
   const accessApi = async () => {
     setLoading(true);
     const data = await getMusics(id as string);
@@ -25,21 +25,31 @@ function Album() {
   return (
     <>
       { loading && <Loading /> }
-      { !loading && (
+      { !loading && musicData.length > 0 && (
         <div>
-          <img src={ musicData[0].artworkUrl100 } alt="" />
-          <h2 data-testid="album-name">{ (music as AlbumType).collectionName }</h2>
-          <h2 data-testid="artist-name">{ (music as AlbumType).artistName }</h2>
-          { musicData.map((music) => {
+          <img
+            src={ (musicData[0] as AlbumType).artworkUrl100 }
+            alt={ (musicData[0] as AlbumType).collectionName }
+          />
+          <h2 data-testid="artist-name">
+            { (musicData[0] as AlbumType).artistName }
+          </h2>
+          <h2 data-testid="album-name">
+            { (musicData[0] as AlbumType).collectionName }
+          </h2>
+          { musicData.slice(1).map((music, index) => {
             return (
-              <div key={ (music as AlbumType).artistId }>
-                <audio data-testid="audio-component" src="{previewUrl}" controls>
+              <div key={ index }>
+
+                <p>{ (music as SongType).trackName }</p>
+                <audio
+                  data-testid="audio-component"
+                  src={ (music as SongType).previewUrl }
+                  controls
+                >
                   <track kind="captions" />
                   O seu navegador não suporta o elemento
-                  { ' ' }
-                  { ' ' }
                   <code>audio</code>
-                  .
                 </audio>
               </div>
             );

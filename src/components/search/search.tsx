@@ -84,7 +84,6 @@ function Search() {
               <img src={ result.artworkUrl100 } alt="" />
               <p>{result.collectionName}</p>
               <p>{ result.artistName }</p>
-
             </Link>
           )) }
         </>
