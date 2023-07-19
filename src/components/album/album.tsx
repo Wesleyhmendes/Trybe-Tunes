@@ -10,15 +10,15 @@ function Album() {
 
   const { id } = useParams();
   const key = Date.now();
-  const accessApi = async () => {
-    setLoading(true);
-    const data = await getMusics(id as string);
-    setMusicData(data);
-    console.log(data);
-    setLoading(false);
-  };
 
   useEffect(() => {
+    const accessApi = async () => {
+      setLoading(true);
+      const data = await getMusics(id as string);
+      setMusicData(data);
+      console.log(data);
+      setLoading(false);
+    };
     accessApi();
   }, [id]);
 
