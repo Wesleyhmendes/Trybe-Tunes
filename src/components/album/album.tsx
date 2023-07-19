@@ -37,9 +37,9 @@ function Album() {
           <h2 data-testid="album-name">
             { (musicData[0] as AlbumType).collectionName }
           </h2>
-          { musicData.slice(1).map((music, index) => {
+          { musicData.slice(1).map((music) => {
             return (
-              <div key={ index }>
+              <div key={ key }>
 
                 <p>{ (music as SongType).trackName }</p>
                 <audio

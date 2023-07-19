@@ -1,15 +1,16 @@
-import { Outlet, Link } from 'react-router-dom';
+// Layout.js
+import { Outlet, useLocation } from 'react-router-dom';
+import Header from '../header/header';
 
 function Layout() {
+  const location = useLocation();
+  const isLoginPage = location.pathname === '/';
+
   return (
-    <div>
-      <nav>
-        <Link to="/">Login</Link>
-      </nav>
-      <main>
-        <Outlet />
-      </main>
-    </div>
+    <>
+      {!isLoginPage && <Header />}
+      <Outlet />
+    </>
   );
 }
 
