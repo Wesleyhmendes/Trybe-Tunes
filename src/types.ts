@@ -1,4 +1,6 @@
 export type AlbumType = {
+  trackId: number;
+  wrapperType: string;
   artistId: number;
   artistName: string;
   collectionId: number;
