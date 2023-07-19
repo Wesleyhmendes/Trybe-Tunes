@@ -3,22 +3,21 @@ import { useParams } from 'react-router-dom';
 import Loading from '../loading/loading';
 import getMusics from '../../services/musicsAPI';
 import { AlbumType, SongType } from '../../types';
-import emptyHeartImage from '../../images/empty_heart.png';
-import checkedHeartImage from '../../images/checked_heart.png';
+import MusicCard from '../MusicCard/MusiCard';
 
 function Album() {
   const [loading, setLoading] = useState(false);
   const [musicData, setMusicData] = useState<(AlbumType | SongType)[]>([]);
-  const [srcImage, setSrcImage] = useState(emptyHeartImage);
 
   const { id } = useParams();
 
-  const handleFavorite = () => {
-    if (srcImage === emptyHeartImage) {
-      setSrcImage(checkedHeartImage);
-    } else {
-      setSrcImage(emptyHeartImage);
-    }
+  const handleFavorite = (checked: boolean, trackId: number) => {
+    setMusicData(musicData.map((music) => {
+      if ((music as SongType).trackId === trackId) {
+        return { ...music, checked };
+      }
+      return music;
+    }));
   };
 
   useEffect(() => {
@@ -46,32 +45,16 @@ function Album() {
           <h2 data-testid="album-name">
             { (musicData[0] as AlbumType).collectionName }
           </h2>
-          { musicData.slice(1).map((music) => {
-            return (
-              <div key={ (music as SongType).trackId }>
-
-                <p>{ (music as SongType).trackName }</p>
-                <audio
-                  data-testid="audio-component"
-                  src={ (music as SongType).previewUrl }
-                  controls
-                >
-                  <track kind="captions" />
-                  O seu navegador não suporta o elemento
-                  <code>audio</code>
-                </audio>
-                <label>
-                  <img src={ srcImage } alt="Empty Heart" />
-                  <input
-                    onChange={ handleFavorite }
-                    id="favoriteCheck"
-                    type="checkbox"
-                    data-testid={ `checkbox-music-${(music as SongType).trackId}` }
-                  />
-                </label>
-              </div>
-            );
-          }) }
+          { musicData.slice(1).map((music) => (
+            <MusicCard
+              key={ (music as SongType).trackId }
+              trackId={ (music as SongType).trackId }
+              trackName={ (music as SongType).trackName }
+              previewUrl={ (music as SongType).previewUrl }
+              checked={ (music as SongType).checked }
+              handleFavorite={ handleFavorite }
+            />
+          )) }
         </div>
       ) }
     </>
