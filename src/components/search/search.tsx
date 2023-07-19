@@ -67,7 +67,7 @@ function Search() {
           </label>
         </form>
       ) }
-      { showArtist && apiResult.length === 0 && <h2>Nenhum álbum foi encontrado</h2>}
+      { showArtist && apiResult.length === 0 && <h2>Nenhum álbum foi encontrado</h2> }
       { showArtist && apiResult.length !== 0 && (
         <>
           <h2>
@@ -76,7 +76,16 @@ function Search() {
             { searchArtistValue }
           </h2>
           { apiResult.map((result: AlbumType) => (
-            <Link to={ `/album/:${result.collectionId}` } key={ result.collectionId } />
+            <Link
+              data-testid={ `link-to-album-${result.collectionId}` }
+              to={ `/album/${result.collectionId}` }
+              key={ result.collectionId }
+            >
+              <img src={ result.artworkUrl100 } alt="" />
+              <p>{result.collectionName}</p>
+              <p>{ result.artistName }</p>
+
+            </Link>
           )) }
         </>
       ) }
