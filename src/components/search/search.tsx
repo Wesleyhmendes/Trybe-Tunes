@@ -1,12 +1,16 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import searchAlbumsAPI from '../../services/searchAlbumsAPI';
 import Loading from '../loading/loading';
+import { AlbumType } from '../../types';
 
 function Search() {
   const [loading, setLoading] = useState(false);
   const [disableSearchBtn, setdisableSearchBtn] = useState(true);
-  const [searchArtistValue, setsearchArtistValue] = useState('');
+  const [searchArtistValue, setSearchArtistValue] = useState('');
   const [inputSearch, setinputSearch] = useState('');
+  const [showArtist, setshowArtist] = useState<boolean>(false);
+  const [apiResult, setApiResult] = useState<AlbumType[]>([]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -18,22 +22,31 @@ function Search() {
     }
   };
 
-  const handleSearch = () => {
-    setsearchArtistValue(inputSearch);
+  const handleSearch = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setSearchArtistValue(inputSearch);
     setinputSearch('');
     setdisableSearchBtn(true);
     setLoading(true);
-    const getAlbums = async () => {
-      await searchAlbumsAPI(searchArtistValue);
-      setLoading(false);
-    };
   };
+
+  useEffect(() => {
+    const searchArtist = async () => {
+      if (searchArtistValue !== '') {
+        const getApi = await searchAlbumsAPI(searchArtistValue);
+        setApiResult(getApi);
+        setLoading(false);
+        setshowArtist(true);
+      }
+    };
+    searchArtist();
+  }, [searchArtistValue]);
 
   return (
     <>
       { loading && <Loading /> }
       { !loading && (
-        <form>
+        <form onSubmit={ handleSearch }>
           <label>
             <input
               name="searchArtisInput"
@@ -44,8 +57,8 @@ function Search() {
               data-testid="search-artist-input"
             />
             <button
+              type="submit"
               name="searchArtistBtn"
-              onClick={ handleSearch }
               disabled={ disableSearchBtn }
               data-testid="search-artist-button"
             >
@@ -53,6 +66,19 @@ function Search() {
             </button>
           </label>
         </form>
+      ) }
+      { showArtist && apiResult.length === 0 && <h2>Nenhum álbum foi encontrado</h2>}
+      { showArtist && apiResult.length !== 0 && (
+        <>
+          <h2>
+            Resultado de álbuns de:
+            { ' ' }
+            { searchArtistValue }
+          </h2>
+          { apiResult.map((result: AlbumType) => (
+            <Link to={ `/album/:${result.collectionId}` } key={ result.collectionId } />
+          )) }
+        </>
       ) }
     </>
   );
