@@ -1,4 +1,3 @@
-// Layout.js
 import { Outlet, useLocation } from 'react-router-dom';
 import Header from '../header/header';
 
