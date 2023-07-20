@@ -4,19 +4,19 @@ import Loading from '../loading/loading';
 import getMusics from '../../services/musicsAPI';
 import { AlbumType, SongType } from '../../types';
 import MusicCard from '../MusicCard/MusiCard';
-import { addSong, removeSong } from '../../services/favoriteSongsAPI';
+import { addSong, getFavoriteSongs, removeSong } from '../../services/favoriteSongsAPI';
 
 function Album() {
   const [loading, setLoading] = useState(false);
   const [musicData, setMusicData] = useState<(AlbumType | SongType)[]>([]);
-  const [srcImage, setSrcImage] = useState('/src/images/empty_heart.png');
+  const [favoriteSongs, setFavoriteSongs] = useState<number[]>([]);
 
   const emptyHeartImage = '/src/images/empty_heart.png';
   const checkedHeartImage = '/src/images/checked_heart.png';
 
   const { id } = useParams();
 
-  const handleFavorite = (checked: boolean, trackId: number) => {
+  const handleFavorite = async (checked: boolean, trackId: number) => {
     setMusicData(musicData.map((music) => {
       if ((music as SongType).trackId === trackId) {
         if (!checked) {
@@ -24,7 +24,7 @@ function Album() {
         } else if (checked) {
           addSong(music as SongType);
         }
-        return { ...music, checked };
+        return { ...music, checked: !checked };
       }
       return music;
     }));
@@ -39,6 +39,20 @@ function Album() {
     };
     accessApi();
   }, [id]);
+
+  useEffect(() => {
+    const fetchFavoriteSongs = async () => {
+      try {
+        const songs = await getFavoriteSongs();
+        const favoriteTrackIds = songs.map((song) => song.trackId);
+        setFavoriteSongs(favoriteTrackIds);
+      } catch (error) {
+        console.error('Error fetching favorite songs:', error);
+      }
+    };
+
+    fetchFavoriteSongs();
+  }, []);
 
   return (
     <>
@@ -56,7 +70,8 @@ function Album() {
             { (musicData[0] as AlbumType).collectionName }
           </h2>
           { musicData.slice(1).map((music) => {
-            const { trackId, trackName, previewUrl, checked } = music as SongType;
+            const { trackId, trackName, previewUrl } = music as SongType;
+            const checked = favoriteSongs.includes(trackId);
             return (
               <div key={ trackId }>
 
@@ -79,6 +94,7 @@ function Album() {
                     onChange={ ({ target }) => handleFavorite(target.checked, trackId) }
                     id="favoriteCheck"
                     type="checkbox"
+                    checked={ checked }
                   />
                 </label>
               </div>
