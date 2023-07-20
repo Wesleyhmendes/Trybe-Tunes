@@ -21,10 +21,8 @@ function Album() {
       if ((music as SongType).trackId === trackId) {
         if (!checked) {
           removeSong(music as SongType);
-          console.log('foi remove song');
         } else if (checked) {
           addSong(music as SongType);
-          console.log('foi add song');
         }
         return { ...music, checked };
       }
@@ -75,7 +73,7 @@ function Album() {
                 <label data-testid={ `checkbox-music-${trackId}` }>
                   <img
                     src={ checked ? checkedHeartImage : emptyHeartImage }
-                    alt="Empty Heart"
+                    alt="favorite"
                   />
                   <input
                     onChange={ ({ target }) => handleFavorite(target.checked, trackId) }
