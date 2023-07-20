@@ -42,13 +42,9 @@ function Album() {
 
   useEffect(() => {
     const fetchFavoriteSongs = async () => {
-      try {
-        const songs = await getFavoriteSongs();
-        const favoriteTrackIds = songs.map((song) => song.trackId);
-        setFavoriteSongs(favoriteTrackIds);
-      } catch (error) {
-        console.error('Error fetching favorite songs:', error);
-      }
+      const songs = await getFavoriteSongs();
+      const favoriteTrackIds = songs.map((song) => song.trackId);
+      setFavoriteSongs(favoriteTrackIds);
     };
 
     fetchFavoriteSongs();
