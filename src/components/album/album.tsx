@@ -9,14 +9,13 @@ import { addSong, getFavoriteSongs, removeSong } from '../../services/favoriteSo
 function Album() {
   const [loading, setLoading] = useState(false);
   const [musicData, setMusicData] = useState<(AlbumType | SongType)[]>([]);
-  const [favoriteSongs, setFavoriteSongs] = useState<number[]>([]);
 
   const emptyHeartImage = '/src/images/empty_heart.png';
   const checkedHeartImage = '/src/images/checked_heart.png';
 
   const { id } = useParams();
 
-  const handleFavorite = async (checked: boolean, trackId: number) => {
+  const handleFavorite = (checked: boolean, trackId: number) => {
     setMusicData(musicData.map((music) => {
       if ((music as SongType).trackId === trackId) {
         if (!checked) {
@@ -24,7 +23,7 @@ function Album() {
         } else if (checked) {
           addSong(music as SongType);
         }
-        return { ...music, checked: !checked };
+        return { ...music, checked };
       }
       return music;
     }));
@@ -34,21 +33,15 @@ function Album() {
     const accessApi = async () => {
       setLoading(true);
       const data = await getMusics(id as string);
-      setMusicData(data);
+      const songs = await getFavoriteSongs();
+      const filterMusic = data.map((music) => ({ ...music,
+        checked: songs.some((song) => song.trackId === (music as SongType).trackId),
+      }));
+      setMusicData(filterMusic);
       setLoading(false);
     };
     accessApi();
   }, [id]);
-
-  useEffect(() => {
-    const fetchFavoriteSongs = async () => {
-      const songs = await getFavoriteSongs();
-      const favoriteTrackIds = songs.map((song) => song.trackId);
-      setFavoriteSongs(favoriteTrackIds);
-    };
-
-    fetchFavoriteSongs();
-  }, []);
 
   return (
     <>
@@ -66,8 +59,7 @@ function Album() {
             { (musicData[0] as AlbumType).collectionName }
           </h2>
           { musicData.slice(1).map((music) => {
-            const { trackId, trackName, previewUrl } = music as SongType;
-            const checked = favoriteSongs.includes(trackId);
+            const { trackId, trackName, previewUrl, checked } = music as SongType;
             return (
               <div key={ trackId }>
 

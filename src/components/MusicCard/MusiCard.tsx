@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { SongType } from '../../types';
 
-function MusicCard(music: SongType) {
+function MusicCard(music: SongType &
+{ handleFavorite: (checked: boolean, trackId: number) => void }) {
   const [checked, setChecked] = useState(false);
   const { trackId, trackName, previewUrl } = music;
 

@@ -1,5 +1,4 @@
 export type AlbumType = {
-  wrapperType: string;
   artistId: number;
   artistName: string;
   collectionId: number;
@@ -19,7 +18,7 @@ export type UserType = {
 
 export type SongType = {
   handleFavorite: (checked: boolean, trackId: number) => void;
-  checked: boolean;
+  checked: boolean
   trackId: number,
   trackName: string,
   previewUrl: string,
