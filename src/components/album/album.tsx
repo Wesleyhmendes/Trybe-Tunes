@@ -3,19 +3,31 @@ import { useParams } from 'react-router-dom';
 import Loading from '../loading/loading';
 import getMusics from '../../services/musicsAPI';
 import { AlbumType, SongType } from '../../types';
-import MusicCard from '../MusicCard/MusiCard';
 import { addSong, getFavoriteSongs, removeSong } from '../../services/favoriteSongsAPI';
+import MusicCard from '../MusicCard/MusicCard';
 
 function Album() {
   const [loading, setLoading] = useState(false);
   const [musicData, setMusicData] = useState<(AlbumType | SongType)[]>([]);
 
-  const emptyHeartImage = '/src/images/empty_heart.png';
-  const checkedHeartImage = '/src/images/checked_heart.png';
-
   const { id } = useParams();
 
-  const handleFavorite = (checked: boolean, trackId: number) => {
+  useEffect(() => {
+    const accessApi = async () => {
+      setLoading(true);
+      const data = await getMusics(id as string);
+      const songs = await getFavoriteSongs();
+      const filterMusic = data.map((music) => ({
+        ...music,
+        checked: songs.some((song) => song.trackId === (music as SongType).trackId),
+      }));
+      setMusicData(filterMusic);
+      setLoading(false);
+    };
+    accessApi();
+  }, [id]);
+
+  const handleFav = (checked: boolean, trackId: number) => {
     setMusicData(musicData.map((music) => {
       if ((music as SongType).trackId === trackId) {
         if (!checked) {
@@ -28,20 +40,6 @@ function Album() {
       return music;
     }));
   };
-
-  useEffect(() => {
-    const accessApi = async () => {
-      setLoading(true);
-      const data = await getMusics(id as string);
-      const songs = await getFavoriteSongs();
-      const filterMusic = data.map((music) => ({ ...music,
-        checked: songs.some((song) => song.trackId === (music as SongType).trackId),
-      }));
-      setMusicData(filterMusic);
-      setLoading(false);
-    };
-    accessApi();
-  }, [id]);
 
   return (
     <>
@@ -59,34 +57,20 @@ function Album() {
             { (musicData[0] as AlbumType).collectionName }
           </h2>
           { musicData.slice(1).map((music) => {
-            const { trackId, trackName, previewUrl, checked } = music as SongType;
-            return (
-              <div key={ trackId }>
-
-                <p>{ trackName }</p>
-                <audio
-                  data-testid="audio-component"
-                  src={ previewUrl }
-                  controls
-                >
-                  <track kind="captions" />
-                  O seu navegador não suporta o elemento
-                  <code>audio</code>
-                </audio>
-                <label data-testid={ `checkbox-music-${trackId}` }>
-                  <img
-                    src={ checked ? checkedHeartImage : emptyHeartImage }
-                    alt="favorite"
-                  />
-                  <input
-                    onChange={ ({ target }) => handleFavorite(target.checked, trackId) }
-                    id="favoriteCheck"
-                    type="checkbox"
-                    checked={ checked }
-                  />
-                </label>
-              </div>
-            );
+            if ('trackId' in music) {
+              const { trackId, trackName, previewUrl, checked } = music;
+              return (
+                <MusicCard
+                  key={ trackId }
+                  trackName={ trackName }
+                  previewUrl={ previewUrl }
+                  trackId={ trackId }
+                  checked={ checked }
+                  handleFav={ handleFav }
+                />
+              );
+            }
+            return null;
           }) }
         </div>
       ) }

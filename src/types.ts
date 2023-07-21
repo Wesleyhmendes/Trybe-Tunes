@@ -17,7 +17,7 @@ export type UserType = {
 };
 
 export type SongType = {
-  handleFavorite: (checked: boolean, trackId: number) => void;
+  handleFav: (checked: boolean, trackId: number) => void;
   checked: boolean
   trackId: number,
   trackName: string,
