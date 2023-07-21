@@ -5,6 +5,7 @@ import Login from './components/login/Login';
 import Album from './components/album/album';
 import Layout from './components/layout/layout';
 import Favorites from './components/favorites/favorites';
+import Profile from './components/profile/profile';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/search" element={ <Search /> } />
         <Route path="/album/:id" element={ <Album /> } />
         <Route path="/favorites" element={ <Favorites /> } />
+        <Route path="/profile" element={ <Profile /> } />
       </Route>
       <Route path="*" element={ <NotFound /> } />
     </Routes>
