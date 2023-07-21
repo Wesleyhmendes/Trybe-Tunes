@@ -1,9 +1,8 @@
-import { useEffect, useState, ChangeEvent, FormEvent } from 'react';
+import { useEffect, useState, ChangeEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getUser, updateUser } from '../../services/userAPI';
 import { UserType } from '../../types';
 import Loading from '../loading/loading';
-import validateEmail from '../../utils/validadeEmail';
 
 function ProfileEdit() {
   const [loading, setLoading] = useState(false);
@@ -13,51 +12,100 @@ function ProfileEdit() {
     description: '',
     image: '',
   });
+  const [disableBtn, setDisableBtn] = useState(true);
 
-  const validate = (userInfo
-    .name.length > 0 && validateEmail(userInfo.email) && userInfo
-    .description.length > 0 && userInfo.image.length > 0);
+  const [nome, setNome] = useState(false);
+  const [email, setEmail] = useState(false);
+  const [descricao, setDescricao] = useState(false);
+  const [url, setUrl] = useState(false);
+
+  useEffect(() => {
+    const checkFields = (user: UserType): void => {
+      if (Object.values(user)
+        .every((check) => check.length)) setDisableBtn(false);
+    };
+    const userReturn = async () => {
+      setLoading(true);
+      const user = await getUser();
+      setLoading(false);
+      setUserInfo(user);
+      checkFields(user);
+    };
+    userReturn();
+  }, []);
+
+  const handleBtn = () => {
+    if (nome && email && descricao && url) {
+      setDisableBtn(false);
+    } else {
+      setDisableBtn(true);
+    }
+  };
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      setLoading(true);
-      setUserInfo(await getUser());
-      setLoading(false);
-    };
-    fetchUser();
-  }, []);
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = event.target;
-    setUserInfo(
-      {
-        ...userInfo,
-        [name]: value,
-      },
-    );
+  const handleSubmit = async () => {
+    setLoading(true);
+    await updateUser({
+      name: userInfo.name,
+      email: userInfo.email,
+      image: userInfo.image,
+      description: userInfo.description,
+    });
+    navigate('/profile');
+    setLoading(false);
   };
 
-  const handleSubmit = async (
-    event: ChangeEvent<HTMLInputElement> | FormEvent<HTMLFormElement>,
-  ) => {
-    event.preventDefault();
-    setLoading(true);
-    await updateUser(userInfo);
-    setLoading(false);
-    navigate('/profile');
+  useEffect(() => {
+    handleBtn();
+  }, [nome, email, descricao, url]);
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const validateEmail = /^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,}$/;
+    const { name, value } = event.target;
+    switch (name) {
+      case 'nome':
+        setNome(!!value);
+        setUserInfo((prevUserInfo) => ({
+          ...prevUserInfo,
+          name: value,
+        }));
+        break;
+      case 'email':
+        setEmail(validateEmail.test(value));
+        setUserInfo((prevUserInfo) => ({
+          ...prevUserInfo,
+          email: value,
+        }));
+        break;
+      case 'descricao':
+        setDescricao(!!value);
+        setUserInfo((prevUserInfo) => ({
+          ...prevUserInfo,
+          description: value,
+        }));
+        break;
+      case 'url':
+        setUrl(!!value);
+        setUserInfo((prevUserInfo) => ({
+          ...prevUserInfo,
+          image: value,
+        }));
+        break;
+      default:
+        break;
+    }
   };
 
   return (
     <>
       { loading && <Loading /> }
       { !loading && (
-        <form onSubmit={ (event) => handleSubmit(event) }>
+        <form onSubmit={ handleSubmit }>
           <label>
             Nome:
             <input
-              name="name"
+              name="nome"
               onChange={ handleChange }
               required
               data-testid="edit-input-name"
@@ -81,7 +129,7 @@ function ProfileEdit() {
           <label>
             Descrição:
             <textarea
-              name="description"
+              name="descricao"
               onChange={ handleChange }
               required
               data-testid="edit-input-description"
@@ -92,7 +140,7 @@ function ProfileEdit() {
           <label>
             Url Imagem:
             <input
-              name="image"
+              name="url"
               onChange={ handleChange }
               required
               data-testid="edit-input-image"
@@ -102,7 +150,7 @@ function ProfileEdit() {
           </label>
 
           <button
-            disabled={ !validate }
+            disabled={ disableBtn }
             data-testid="edit-button-save"
           >
             Enviar
