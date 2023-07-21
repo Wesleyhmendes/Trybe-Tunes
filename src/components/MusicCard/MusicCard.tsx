@@ -1,6 +1,5 @@
 import React from 'react';
 import { SongType } from '../../types';
-import { addSong, removeSong } from '../../services/favoriteSongsAPI';
 
 const emptyHeartImage = '/src/images/empty_heart.png';
 const checkedHeartImage = '/src/images/checked_heart.png';

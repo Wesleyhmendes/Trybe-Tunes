@@ -56,7 +56,7 @@ function Album() {
           <h2 data-testid="album-name">
             { (musicData[0] as AlbumType).collectionName }
           </h2>
-          { musicData.slice(1).map((music) => {
+          { musicData.map((music) => {
             if ('trackId' in music) {
               const { trackId, trackName, previewUrl, checked } = music;
               return (
