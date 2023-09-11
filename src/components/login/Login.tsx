@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createUser } from '../../services/userAPI';
 import Loading from '../loading/loading';
+import './login.css';
 
 function Login() {
   const [loading, setLoading] = useState(false);
@@ -34,28 +35,34 @@ function Login() {
     <>
       { loading && <Loading /> }
       { !loading && (
-        <form>
-          <label>
-            Nome
-            <input
-              required
-              type="text"
-              name="NameInput"
-              data-testid="login-name-input"
-              onChange={ handleChange }
-            />
-          </label>
-          <button
-            name="createBtn"
-            type="button"
-            disabled={ disableBtn }
-            data-testid="login-submit-button"
-            onClick={ handleSubmit }
-          >
-            Entrar
-          </button>
-        </form>
-      ) }
+        <div className="container">
+          <form className="logInForm">
+            <h1 className="logInTitle">Log In</h1>
+            <label className="logInLabel">
+              Seu nome ou apelido
+              <input
+                className="logInInput"
+                required
+                type="text"
+                name="NameInput"
+                data-testid="login-name-input"
+                onChange={ handleChange }
+                placeholder="  Nome"
+              />
+            </label>
+            <button
+              className="logInButton"
+              name="createBtn"
+              type="button"
+              disabled={ disableBtn }
+              data-testid="login-submit-button"
+              onClick={ handleSubmit }
+            >
+              Entrar
+            </button>
+          </form>
+        </div>
+      )}
     </>
   );
 }

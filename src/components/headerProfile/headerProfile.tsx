@@ -2,9 +2,9 @@ import { NavLink } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getUser } from '../../services/userAPI';
 import Loading from '../loading/loading';
-import './header.css';
+import '../header/header.css';
 
-function Header() {
+function HeaderProfile() {
   const [loading, setLoading] = useState(false);
   const [getName, setGetName] = useState<string>();
 
@@ -43,7 +43,8 @@ function Header() {
             className="userName"
             data-testid="header-user-name"
           >
-            Olá,&nbsp;
+            Informações de
+            {' '}
             <span className="getName">
               { getName }
             </span>
@@ -55,4 +56,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default HeaderProfile;

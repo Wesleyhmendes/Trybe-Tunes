@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import searchAlbumsAPI from '../../services/searchAlbumsAPI';
 import Loading from '../loading/loading';
 import { AlbumType } from '../../types';
+import './search.css';
 
 function Search() {
   const [loading, setLoading] = useState(false);
@@ -49,14 +50,16 @@ function Search() {
         <form onSubmit={ handleSearch }>
           <label>
             <input
+              className="searchInput"
               name="searchArtisInput"
               type="text"
-              placeholder="Nome do Artista"
+              placeholder="🔎 Nome do Artista"
               onInput={ handleChange }
               value={ inputSearch }
               data-testid="search-artist-input"
             />
             <button
+              className="searchButton"
               type="submit"
               name="searchArtistBtn"
               disabled={ disableSearchBtn }
@@ -70,20 +73,25 @@ function Search() {
       { showArtist && apiResult.length === 0 && <h2>Nenhum álbum foi encontrado</h2> }
       { showArtist && apiResult.length !== 0 && (
         <>
-          <h2>
+          <h2 className="h2Result">
             Resultado de álbuns de:
             { ' ' }
-            { searchArtistValue }
+            <span className="artistName">
+              { searchArtistValue }
+            </span>
           </h2>
           { apiResult.map((result: AlbumType) => (
             <Link
+              className="linkAlbum"
               data-testid={ `link-to-album-${result.collectionId}` }
               to={ `/album/${result.collectionId}` }
               key={ result.collectionId }
             >
-              <img src={ result.artworkUrl100 } alt="" />
-              <p>{result.collectionName}</p>
-              <p>{ result.artistName }</p>
+              <img className="albumImg" src={ result.artworkUrl100 } alt="" />
+              <div className="albumInfo">
+                <p className="albumArtist">{ result.collectionName }</p>
+                <p className="albumName">{ result.artistName }</p>
+              </div>
             </Link>
           )) }
         </>

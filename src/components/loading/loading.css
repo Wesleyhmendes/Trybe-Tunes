@@ -1,0 +1,11 @@
+.loadingDiv {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+}
+
+.loadingH1 {
+  color: #1db954;
+  font-size: 45px;
+}

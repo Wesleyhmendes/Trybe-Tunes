@@ -1,0 +1,28 @@
+.checkInputFavorite {
+  width: 0;
+}
+
+audio::-webkit-media-controls-timeline { 
+  display:flex;
+}
+audio::-webkit-media-controls-panel {
+  background-color: #1db954;
+}
+
+.audioPlayer {
+  margin-left: 1em;
+}
+
+.checkedHeartAlbumPage {
+  margin-left: 10px;
+}
+
+.audioAndCheckedHeart {
+  align-items: center;
+  display: flex;
+}
+
+.trackName {
+  font-size: 19px;
+  margin-left: 1em;
+}

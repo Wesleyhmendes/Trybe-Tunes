@@ -1,0 +1,69 @@
+.searchForm {
+  border: 1px solid red;
+  align-items: center;
+  display: flex;
+}
+
+.searchInput {
+  border: none;
+  border-radius: 25px;
+  background-color: #212121;
+  color: white;
+  height: 40px;
+  margin-left: 1em;
+  margin-right: 1em;
+  padding-left: 1em;
+  padding-right: 1em;
+  width: 300px;
+}
+
+.searchButton {
+  border: none;
+  border-radius: 25px;
+  display: none;
+  font-size: 17px;
+  font-weight: bold;
+  height: 40px;
+  background-color: #1db954;
+  margin-left: 1em;
+  width: 120px;
+}
+
+.linkAlbum {
+  display: flex;
+  align-items: flex-end;
+  text-decoration: none;
+}
+
+.h2Result {
+  margin-left: 1em;
+}
+
+.albumImg {
+  margin-left: 15px;
+  width: 100px;
+  height: 100px;
+  
+}
+
+.albumInfo {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.albumArtist {
+  color: white;
+  font-size: 23px;
+  font-weight: bold;
+  margin-left: 15px;
+}
+
+.albumName {
+  margin-left: 15px;
+  color: white;
+}
+
+.artistName {
+  color: #1db954;
+}

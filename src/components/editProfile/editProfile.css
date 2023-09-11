@@ -1,0 +1,102 @@
+.editSection {
+  display: flex;
+  flex-direction: column;
+}
+
+.editNome {
+ margin-left: 1em;
+ font-size: 19px;
+ font-weight: bold;
+}
+
+.editEmail {
+  margin-left: 1em;
+  font-size: 19px;
+  font-weight: bold;
+}
+
+.editDescription {
+  margin-left: 1em;
+  font-size: 19px;
+  font-weight: bold;
+}
+
+.editUrl {
+  margin-left: 1em;
+  font-size: 19px;
+  font-weight: bold;
+}
+
+.nameEditInput {
+  border: none;
+  border-radius: 25px;
+  background-color: #212121;
+  color: white;
+  height: 40px;
+  margin-bottom: 1em;
+  margin-right: 1em;
+  margin-top: 1em;
+  padding-left: 1em;
+  padding-right: 1em;
+  width: 300px;
+}
+
+.emailEditInput {
+  border: none;
+  border-radius: 25px;
+  background-color: #212121;
+  color: white;
+  height: 40px;
+  margin-bottom: 1em;
+  margin-right: 1em;
+  margin-top: 1em;
+  padding-left: 1em;
+  padding-right: 1em;
+  width: 300px;
+}
+
+.descriptionEditInput {
+  border: none;
+  border-radius: 25px;
+  background-color: #212121;
+  color: white;
+  height: 40px;
+  margin-bottom: 1em;
+  margin-right: 1em;
+  margin-top: 1em;
+  padding-left: 1em;
+  padding-right: 1em;
+  padding-top: 1em;
+  width: 300px;
+}
+
+.urlEditInput {
+  border: none;
+  border-radius: 25px;
+  background-color: #212121;
+  color: white;
+  height: 40px;
+  margin-bottom: 1em;
+  margin-right: 1em;
+  margin-top: 1em;
+  padding-left: 1em;
+  padding-right: 1em;
+  width: 300px;
+}
+
+.editSaveDivBtn {
+  display: flex;
+  justify-content: center;
+  margin-top: 1em;
+}
+
+.editSaveBtn {
+  border: none;
+  border-radius: 25px;
+  font-size: 22px;
+  font-weight: bold;
+  height: 40px;
+  background-color: #1db954;
+  margin-top: 10px;
+  width: 240px;
+}

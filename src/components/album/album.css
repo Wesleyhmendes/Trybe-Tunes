@@ -1,0 +1,38 @@
+.albumPresentationTitle {
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
+.albumPresentationName {
+  color: #1db954;
+}
+
+.currentAlbumImage {
+
+} 
+
+.albumPageImgAlbum {
+  border-radius: 5px;
+  height: 135px;
+  margin-left: 1em;
+  margin-right: 1em;
+  width: 135px;
+}
+
+.albumPageAlbumInfo {
+  align-items: center;
+  display: flex;
+}
+
+.albumPageTextInfo {
+  display: flex;
+  flex-direction: column;
+  margin-left: 1em;
+  margin-right: 1em;
+  align-items: flex-start;
+}
+
+.albumPageArtistName {
+  font-size: 35px;
+  margin-bottom: 0px;
+}

@@ -3,7 +3,7 @@ import NotFound from './components/notFound/notFound';
 import Search from './components/search/search';
 import Login from './components/login/Login';
 import Album from './components/album/album';
-import Layout from './components/layout/layout';
+import Layout from './components/headerProfile/layout/layout';
 import Favorites from './components/favorites/favorites';
 import ProfileEdit from './components/editProfile/ProfileEdit';
 import Profile from './components/profile/profile';

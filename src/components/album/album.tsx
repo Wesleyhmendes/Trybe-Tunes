@@ -5,6 +5,7 @@ import getMusics from '../../services/musicsAPI';
 import { AlbumType, SongType } from '../../types';
 import { addSong, getFavoriteSongs, removeSong } from '../../services/favoriteSongsAPI';
 import MusicCard from '../MusicCard/MusicCard';
+import './album.css';
 
 function Album() {
   const [loading, setLoading] = useState(false);
@@ -45,17 +46,31 @@ function Album() {
     <>
       { loading && <Loading /> }
       { !loading && musicData.length > 0 && (
-        <div>
-          <img
-            src={ (musicData[0] as AlbumType).artworkUrl100 }
-            alt={ (musicData[0] as AlbumType).collectionName }
-          />
-          <h2 data-testid="artist-name">
-            { (musicData[0] as AlbumType).artistName }
+        <section className="albumMainDiv">
+          <h2 className="albumPresentationTitle">
+            Músicas do álbum
+            { ' ' }
+            <span className="albumPresentationName">
+              { (musicData[0] as AlbumType).collectionName }
+            </span>
           </h2>
-          <h2 data-testid="album-name">
-            { (musicData[0] as AlbumType).collectionName }
-          </h2>
+          <div className="albumPageAlbumInfo">
+            <div className="currentAlbumImage">
+              <img
+                className="albumPageImgAlbum"
+                src={ (musicData[0] as AlbumType).artworkUrl100 }
+                alt={ (musicData[0] as AlbumType).collectionName }
+              />
+            </div>
+            <div className="albumPageTextInfo">
+              <h2 className="albumPageArtistName" data-testid="artist-name">
+                { (musicData[0] as AlbumType).artistName }
+              </h2>
+              <h2 className="albumPageAlbumName" data-testid="album-name">
+                { (musicData[0] as AlbumType).collectionName }
+              </h2>
+            </div>
+          </div>
           { musicData.map((music) => {
             if ('trackId' in music) {
               const { trackId, trackName, previewUrl, checked } = music;
@@ -72,7 +87,7 @@ function Album() {
             }
             return null;
           }) }
-        </div>
+        </section>
       ) }
     </>
   );

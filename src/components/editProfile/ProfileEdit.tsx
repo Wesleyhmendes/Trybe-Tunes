@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { getUser, updateUser } from '../../services/userAPI';
 import { UserType } from '../../types';
 import Loading from '../loading/loading';
+import './editProfile.css';
 
 function ProfileEdit() {
   const [loading, setLoading] = useState(false);
@@ -102,59 +103,72 @@ function ProfileEdit() {
       { loading && <Loading /> }
       { !loading && (
         <form onSubmit={ handleSubmit }>
-          <label>
-            Nome:
-            <input
-              name="nome"
-              onChange={ handleChange }
-              required
-              data-testid="edit-input-name"
-              type="text"
-              value={ userInfo.name }
-            />
-          </label>
-
-          <label>
-            Email:
-            <input
-              name="email"
-              onChange={ handleChange }
-              required
-              data-testid="edit-input-email"
-              type="text"
-              value={ userInfo.email }
-            />
-          </label>
-
-          <label>
-            Descrição:
-            <textarea
-              name="descricao"
-              onChange={ handleChange }
-              required
-              data-testid="edit-input-description"
-              value={ userInfo.description }
-            />
-          </label>
-
-          <label>
-            Url Imagem:
-            <input
-              name="url"
-              onChange={ handleChange }
-              required
-              data-testid="edit-input-image"
-              type="text"
-              value={ userInfo.image }
-            />
-          </label>
-
-          <button
-            disabled={ disableBtn }
-            data-testid="edit-button-save"
-          >
-            Enviar
-          </button>
+          <section className="editSection">
+            <div className="editNome">
+              <label>
+                Nome:
+                <input
+                  className="nameEditInput"
+                  name="nome"
+                  onChange={ handleChange }
+                  required
+                  data-testid="edit-input-name"
+                  type="text"
+                  value={ userInfo.name }
+                />
+              </label>
+            </div>
+            <div className="editEmail">
+              <label>
+                Email:
+                <input
+                  className="emailEditInput"
+                  name="email"
+                  onChange={ handleChange }
+                  required
+                  data-testid="edit-input-email"
+                  type="text"
+                  value={ userInfo.email }
+                />
+              </label>
+            </div>
+            <div className="editDescription">
+              <label>
+                Descrição:
+                <textarea
+                  className="descriptionEditInput"
+                  name="descricao"
+                  onChange={ handleChange }
+                  required
+                  data-testid="edit-input-description"
+                  value={ userInfo.description }
+                />
+              </label>
+            </div>
+            <div className="editUrl">
+              <label>
+                Url Imagem:
+                <input
+                  className="urlEditInput"
+                  name="url"
+                  onChange={ handleChange }
+                  required
+                  data-testid="edit-input-image"
+                  type="text"
+                  value={ userInfo.image }
+                />
+              </label>
+            </div>
+          </section>
+          <div className="editSaveDivBtn">
+            <button
+              className="editSaveBtn"
+              disabled={ disableBtn }
+              data-testid="edit-button-save"
+            >
+              Enviar
+            </button>
+          </div>
         </form>
       ) }
     </>

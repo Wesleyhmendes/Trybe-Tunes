@@ -3,6 +3,7 @@ import { getFavoriteSongs, removeSong } from '../../services/favoriteSongsAPI';
 import { AlbumType, SongType } from '../../types';
 import Loading from '../loading/loading';
 import MusicCard from '../MusicCard/MusicCard';
+import './favorites.css';
 
 function Favorites() {
   const [loading, setLoading] = useState(false);
@@ -41,6 +42,7 @@ function Favorites() {
       { loading && <Loading /> }
       { !loading && (
         <div>
+          <h2 className="favoritesPageTitle">Essas são suas músicas favoritas:</h2>
           { favSongs.map((song) => {
             const { trackId, trackName, previewUrl, checked } = song;
             return (

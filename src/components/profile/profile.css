@@ -1,0 +1,35 @@
+.profileImg {
+  border-radius: 15px;
+  width: 150px;
+  height: 150px;
+}
+
+.profileImgDiv {
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.profileTextInfo {
+  margin-left: 1em;
+}
+
+.editProfileBtn {
+  background-color: #1db954;
+  border: none;
+  border-radius: 25px;
+  font-size: 22px;
+  font-weight: bold;
+  height: 40px;
+  width: 240px;
+}
+
+.editProfileLink {
+  color: #121212;
+  text-decoration: none;
+}
+
+.buttonDiv {
+  display: flex;
+  justify-content: center;
+  margin-top: 3em;
+}
